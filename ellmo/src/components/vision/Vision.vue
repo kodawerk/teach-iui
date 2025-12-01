@@ -40,8 +40,8 @@ const videoElement: Ref<HTMLVideoElement | null> = ref(null);
 const canvasElement: Ref<HTMLCanvasElement | null> = ref(null);
 const isCameraActive = ref(false);
 const isMinimized = ref(false);
-let analysisInterval = null;
-let videoStream = null;
+let analysisInterval: number | null = null;
+let videoStream: MediaStream | null = null;
 const isAnalyzing = ref(false); 
 const analysisEnabled = ref(false);
 const analysisResult = ref('');
@@ -52,13 +52,16 @@ const emit = defineEmits(['fer']);
 const startCamera = async () => {
     try {
         videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        if (!videoElement.value) {
+            console.error('Video element is null');
+            return;
+        }
         videoElement.value.srcObject = videoStream;
         await videoElement.value.play();
         
         isCameraActive.value = true;
-        // analysisResult.value = 'Camera active. Analysis started.';
         
-        startAnalysisLoop();
+        //startAnalysisLoop();
 
     } catch (error) {
         console.error('Error accessing webcam:', error);
@@ -82,7 +85,7 @@ const startAnalysisLoop = () => {
     
     // run analyze method every 1000ms
     analysisEnabled.value = true;
-    analysisInterval = setInterval(analyzeFrame, 1000);
+    analysisInterval = setInterval(analyzeFrame, 2000);
 };
 
 const stopAnalysisLoop = () => {
@@ -113,6 +116,12 @@ const analyzeFrame = async () => {
     }
 
     const context = canvas.getContext('2d');
+
+    if(!context) {
+        console.error('Canvas context is null');
+        return;
+    }
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -158,7 +167,7 @@ const analyzeFrame = async () => {
         
     } catch (error) {
         console.error('Ollama Vision Analysis Error:', error);
-        analysisResult.value = `Error analyzing image: ${error.message}. Ensure 'ollama serve' is running and 'llava' is pulled.`;
+        analysisResult.value = `Error analyzing image: ${error}. Ensure 'ollama serve' is running and 'llava' is pulled.`;
     } finally {
         isAnalyzing.value = false;
     }

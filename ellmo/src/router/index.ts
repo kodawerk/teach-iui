@@ -1,4 +1,5 @@
-import HomeView from '@/views/HomeView.vue'
+import HomeView from '@/views/home/HomeView.vue'
+import FaceRecognitionView from '@/views/fer/FaceRecognitionView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -8,7 +9,14 @@ const router = createRouter({
         path: '/',
         name: '',
         component: HomeView
-        }
+        
+    }, 
+    {
+        path: '/fer',
+        name: '',
+        component: FaceRecognitionView
+        
+    }
     ]
 })
 

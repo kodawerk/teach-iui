@@ -1,0 +1,107 @@
+
+@use '@styles/variables' as *;
+
+$max-width: 920px;
+
+.chat-view {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 30px 100px 30px;
+    color: $coal;
+
+    .chat-input-container {
+        display: flex;
+        flex-direction: row;
+        gap: 18px;
+        max-width: $max-width;
+        width: 100%;
+
+        .prompt-input {
+            width: 100%;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            border: none;
+            background-color: $milk;
+            border: 1px solid #efefef;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .send-button {
+            min-width: 140px;
+            flex-shrink: 0;
+            padding: 0.8rem 1.5rem;
+            color: $coal;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: $milk;
+            
+            &:hover:not(:disabled) {
+            }
+            
+            &:disabled {
+                color: #888;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+
+
+    .conversationContainer {
+        width: 100%;
+        max-width: $max-width;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;   
+        overflow-y: auto; 
+        gap: 24px;
+        padding-top: 40px;
+
+        .message-bubble {
+            width: 100%;
+            min-width: 80px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;   
+
+            .content {
+                max-width: 75%;
+                padding: 8px 16px;
+                border-radius: 20px;
+                line-height: 125%;
+                word-wrap: break-word;
+            }
+            
+            &.user {
+                margin-left: auto;
+                align-items: flex-end;   
+
+                .content {
+                    background-color: #f0f0f0;
+                }
+            }
+
+            &.assistant {
+            }
+            
+            &.thinking {
+            }
+        }
+    }
+}
+

@@ -3,27 +3,36 @@
 
 
 <template>
-  <div class="chat-input-container">
-    <input
-      type="text"
-      v-model="userPrompt"
-      @keyup.enter="sendMessage"
-      placeholder="Ask Llama 3 anything..."
-      class="prompt-input"
-    />
-    <button @click="sendMessage" :disabled="!userPrompt.trim()" class="send-button">
-      Send
-    </button>
-  </div>
+    <div class="chat-view">
 
-  <div class="conversationContainer" ref="conversationContainer">
-    <div v-for="m,i in chatHistory" :key="i">
-        {{ m.content }}
+        <div class="conversationContainer"   ref="conversationContainer">
+            <div v-for="m,i in chatHistory" :key="i" :class="['message-bubble', m.role]">
+                <div class="content">
+                    {{ m.content }}
+                </div>
+            </div>
+            <div class="message-bubble assistant thinking" v-if="isThinking">
+                <div class="content">
+                    {{ systemResponse }}
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="chat-input-container">
+            <input
+            type="text"
+            v-model="userPrompt"
+            @keyup.enter="sendMessage"
+            placeholder="Ask anything..."
+            class="prompt-input"
+            />
+            <button @click="sendMessage" :disabled="!userPrompt.trim()" class="send-button">
+            Send
+            </button>
+        </div>
+        
     </div>
-    <div>
-        {{ systemResponse }}
-    </div>
-  </div>
 </template>
 
 

@@ -1,6 +1,6 @@
 
 <template>
-    <div class="webcam-analyzer">
+    <div :class="'popup' + (isMinimized ? ' hidden' : '')">
         <video 
             ref="videoElement" 
             :class="{ active: isCameraActive }"
@@ -15,11 +15,20 @@
             <button @click="isCameraActive ? stopCamera() : startCamera()">
                 {{isCameraActive ? "Stop Cam" : "Start Cam" }}
             </button>
+            <button @click="toggleAnalysisLoop()">
+                {{analysisEnabled ? "Pause FER" : "Start FER"}}
+            </button>
+            <button @click="isMinimized = true">&larr;</button>
         </div>
 
         <p class="status">
-            <strong>Status:</strong> {{ analysisResult }}
+            <strong>Status:</strong> {{ status }}<br/>
+            <strong>Result:</strong> {{ analysisResult }}
         </p>
+    </div>
+
+    <div :class="'popup' + (isMinimized ? '' : ' hidden')">
+        <button @click="isMinimized = false"> &rarr;</button>
     </div>
 </template>
 
@@ -29,13 +38,16 @@ import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 
 const videoElement: Ref<HTMLVideoElement | null> = ref(null);
 const canvasElement: Ref<HTMLCanvasElement | null> = ref(null);
-const analysisResult = ref('Waiting for image analysis...');
 const isCameraActive = ref(false);
+const isMinimized = ref(false);
 let analysisInterval = null;
 let videoStream = null;
-const isAnalyzing = ref(false); // To show a loading state
+const isAnalyzing = ref(false); 
+const analysisEnabled = ref(false);
+const analysisResult = ref('');
+const status = ref('');
 
-const emit = defineEmits(['analyzed-frame']);
+const emit = defineEmits(['fer']);
 
 const startCamera = async () => {
     try {
@@ -50,7 +62,7 @@ const startCamera = async () => {
 
     } catch (error) {
         console.error('Error accessing webcam:', error);
-        analysisResult.value = 'Error: Could not access webcam. Please check permissions.';
+        status.value = 'Error: Could not access webcam. Please check permissions.';
         isCameraActive.value = false;
     }
 };
@@ -62,22 +74,33 @@ const stopCamera = () => {
     stopAnalysisLoop();
     isCameraActive.value = false;
     videoStream = null;
-    analysisResult.value = 'Camera stopped.';
+    status.value = 'Camera stopped.';
 };
 
 const startAnalysisLoop = () => {
     stopAnalysisLoop(); 
     
     // run analyze method every 1000ms
-    analysisInterval = setInterval(analyzeFrame, 30000);
+    analysisEnabled.value = true;
+    analysisInterval = setInterval(analyzeFrame, 1000);
 };
 
 const stopAnalysisLoop = () => {
     if (analysisInterval) {
         clearInterval(analysisInterval);
         analysisInterval = null;
+        // analysisResult.value = '';
     }
+    analysisEnabled.value = false;
 };
+
+const toggleAnalysisLoop = () => {
+    if (analysisEnabled.value) {
+        stopAnalysisLoop();
+    } else {
+        startAnalysisLoop();
+    }
+}
 
 const analyzeFrame = async () => { 
     const video = videoElement.value;
@@ -111,8 +134,7 @@ const analyzeFrame = async () => {
         "stream": false
     }
     isAnalyzing.value = true;
-    analysisResult.value = 'Analyzing...';
-        console.log(visionRequest)
+    status.value = 'Analyzing...';
 
     // send request
     try {
@@ -132,7 +154,7 @@ const analyzeFrame = async () => {
         
         // extract the analysis result and update state
         const analysisText = data.message.content;
-        analysisResult.value = `Analysis (${new Date().toLocaleTimeString()}): ${analysisText}`;
+        analysisResult.value = analysisText; //`Analysis (${new Date().toLocaleTimeString()}): ${analysisText}`;
         
     } catch (error) {
         console.error('Ollama Vision Analysis Error:', error);
@@ -142,7 +164,7 @@ const analyzeFrame = async () => {
     }
     
     // Emit the data URL to the parent component for potential processing
-    emit('analyzed-frame', imageDataUrl);
+    emit('fer', analysisResult.value);
 };
 
 

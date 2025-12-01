@@ -17,7 +17,6 @@
                 </div>
             </div>
         </div>
-
         
         <div class="chat-input-container">
             <input
@@ -44,7 +43,15 @@ import type { APIChatMessage, APIChatRequest, APIChatResponse } from '@/types/ch
 import { nextTick, ref } from 'vue';
 import ollama from 'ollama';
 
+const props = defineProps({
+    ferInput: {
+        type: String,
+        default: ''
+    }
+});
+
 const emit = defineEmits(['send-prompt']);
+
 const userPrompt = ref('');
 const systemResponse = ref('');
 const chatHistory = ref<APIChatMessage[]>([]);
@@ -75,7 +82,7 @@ const handleSendPrompt = async (prompt: string) => {
     // system prompt
     const systemPrompt: APIChatMessage = { 
         role: 'system', 
-        content: 'your are a helpful assistant. keep your responses concise.' 
+        content: 'your are a helpful assistant. keep your responses concise. If the user provides facial expression recognition (FER) data, refer to it and use it to better understand the user\'s emotional state. FER data: ' + props.ferInput
     };
     const requestMessages: APIChatMessage[] = [systemPrompt, ...chatHistory.value];
 

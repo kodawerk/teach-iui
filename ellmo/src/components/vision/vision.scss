@@ -1,18 +1,22 @@
 
 @use '@styles/variables' as *;
 
-.webcam-analyzer {
+.popup {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    padding: 8px;
     border-radius: 8px;
     background-color: $milk;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     position: absolute;
-    top: 20px;
+    bottom: 170px;
     left: 20px;
+
+    &.hidden {
+        display: none;
+    }
 }
 
 video {
@@ -28,7 +32,7 @@ video {
 .controls  {
     display: flex;
     flex-direction: row;
-    gap: 24px;
+    gap: 12px;
     
     button {
         min-width: 120px;
@@ -36,7 +40,12 @@ video {
 }
 
 .status {
-    width: 300px;
+    width: 390px;
+    height: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px;
+    font-size: 12px;
     margin-top: 1rem;
     font-size: 0.9rem;
     color: #555;

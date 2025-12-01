@@ -54,6 +54,7 @@ button {
     background-color: $milk;
     
     &:hover:not(:disabled) {
+        background-color: #fafafa;
     }
     
     &:disabled {

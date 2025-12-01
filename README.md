@@ -1,8 +1,8 @@
 
 # ELLMO
+Make sure to have OLLAMA isntalled and running `ollama serve`. 
 
-
-## Setup
+## Setup 
 ```
  cd ellmo
  npm install
@@ -13,3 +13,5 @@
  cd ellmo
  npm run dev
 ```
+
+

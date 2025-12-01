@@ -75,7 +75,7 @@ const handleSendPrompt = async (prompt: string) => {
     // system prompt
     const systemPrompt: APIChatMessage = { 
         role: 'system', 
-        content: 'your are a helpful assistant' 
+        content: 'your are a helpful assistant. keep your responses concise.' 
     };
     const requestMessages: APIChatMessage[] = [systemPrompt, ...chatHistory.value];
 
@@ -91,7 +91,7 @@ const handleSendPrompt = async (prompt: string) => {
             stream: true
         });
 
-        // 6. Consume the stream and update the assistant message in real-time
+        // write incoming stream response to systemResponse
         for await (const chunk of responseStream) {
             if (chunk.message.content) {
                 systemResponse.value += chunk.message.content;
@@ -114,7 +114,6 @@ const handleSendPrompt = async (prompt: string) => {
 };
 
 const updateConversation = () => {
-    // We use nextTick to wait until Vue has updated the DOM with the new content
     nextTick(() => {
         if (conversationContainer.value) {
             conversationContainer.value.scrollTop = conversationContainer.value.scrollHeight;

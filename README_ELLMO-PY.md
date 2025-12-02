@@ -18,12 +18,18 @@ cd chat
 python chat.py
 ```
 
+# ./vision
+Python OLLAMA  LLAVA terminal demo - capture and interpret image.
+```bash
+cd vision
+python vision.py
+```
+
 # ./backend 
-FastAPI with OLLAMA endpoints.
+FastAPI demo with OLLAMA endpoints.
 ```bash
 cd backend
 uvicorn main:app --reload
 ```
-
 Server will be available at http://127.0.0.1:8000
 See http://127.0.0.1:8000/docs

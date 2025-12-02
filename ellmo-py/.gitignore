@@ -87,3 +87,5 @@ ollama_temp/
 # Environment variables
 .env
 .flaskenv
+
+temp/*

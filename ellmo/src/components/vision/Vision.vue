@@ -40,7 +40,7 @@ const videoElement: Ref<HTMLVideoElement | null> = ref(null);
 const canvasElement: Ref<HTMLCanvasElement | null> = ref(null);
 const isCameraActive = ref(false);
 const isMinimized = ref(false);
-let analysisInterval: number | null = null;
+let analysisInterval: any | null = null;
 let videoStream: MediaStream | null = null;
 const isAnalyzing = ref(false); 
 const analysisEnabled = ref(false);
@@ -127,7 +127,6 @@ const analyzeFrame = async () => {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     
     // convert canvas content to a base64 JPEG data URL
-    //const imageDataUrl = canvas.toDataURL('image/jpeg');
     const imageDataUrl = canvas.toDataURL('image/jpeg').split(',')[1];
 
     // analyze with LLAVA

@@ -82,7 +82,7 @@ const handleSendPrompt = async (prompt: string) => {
     // system prompt
     const systemPrompt: APIChatMessage = { 
         role: 'system', 
-        content: 'your are a helpful assistant. keep your responses concise. If the user provides facial expression recognition (FER) data, refer to it and use it to better understand the user\'s emotional state. FER data: ' + props.ferInput
+        content: 'You are a helpful assistant. keep your responses concise. If the user provides facial expression recognition (FER) data, refer to it and use it to better understand the user\'s emotional state. FER data: ' + props.ferInput
     };
     const requestMessages: APIChatMessage[] = [systemPrompt, ...chatHistory.value];
 

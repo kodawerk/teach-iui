@@ -11,7 +11,6 @@ pip install -r requirements.txt
 ```
 
 
-
 # ./chat
 Python OLLAMA terminal chat demo.
 ```bash
@@ -19,7 +18,7 @@ cd chat
 python chat.py
 ```
 
-# ./backend
+# ./backend 
 FastAPI with OLLAMA endpoints.
 ```bash
 cd backend

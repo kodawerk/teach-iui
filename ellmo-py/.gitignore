@@ -1,1 +1,89 @@
+# ----------------------------------------------------------------------
+# PYTHON SPECIFIC FILES
+# ----------------------------------------------------------------------
+
+# Byte-code files
+*.pyc
+__pycache__/
+*.pyd
+*.so
+
+# Virtual Environments
+# Python-specific virtual environment directories
 .venv
+venv/
+env/
+
+# Dependency Management (Pip, Poetry, Conda, etc.)
+# Pip freeze requirement files that are generated (don't usually ignore requirements.txt)
+# requirements.txt 
+pip-log.txt
+pip-delete-this-file.txt
+
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# Conda environments
+.conda/
+.mamba/
+
+# IDE and Editor Files
+# Pycharm
+.idea/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+# VS Code extensions directory
+.vscode-test/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Jupiter Notebook and related
+.ipynb_checkpoints
+
+# ----------------------------------------------------------------------
+# OPERATING SYSTEM AND BUILD FILES
+# ----------------------------------------------------------------------
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# ----------------------------------------------------------------------
+# LOGS AND DATA
+# ----------------------------------------------------------------------
+
+# Logs
+*.log
+
+# Database files (if not used for persistent storage)
+*.sqlite
+*.db
+
+# Temporary Ollama files (if created by the process in the repo root)
+ollama_temp/
+
+# ----------------------------------------------------------------------
+# SECRETS AND ENVIRONMENT VARIABLES
+# ----------------------------------------------------------------------
+
+# Environment variables
+.env
+.flaskenv

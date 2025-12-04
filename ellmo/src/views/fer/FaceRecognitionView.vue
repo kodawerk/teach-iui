@@ -73,43 +73,36 @@ const onPlay = () => {
     const video = videoEl.value
     const canvas = canvasEl.value
     
-    // Ensure the video and canvas elements are available
     if (!video || !canvas) return;
 
     const displaySize = { width: video.width, height: video.height }
     faceapi.matchDimensions(canvas, displaySize)
 
-    // Define the main detection/drawing loop function
+    // main detection/drawing loop function
     const detectFaces = async () => {
         
-        // Check if the video is paused/ended before continuing the loop
         if (video.paused || video.ended) return; 
 
         // 1. Perform Detections
         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
             .withFaceLandmarks()
-            // NOTE: .withFaceDescriptors() is computationally expensive. Keep it only if you need to identify people.
+            // .withFaceDescriptors() 
             .withFaceDescriptors() 
             .withFaceExpressions()
             
         const resizedDetections = faceapi.resizeResults(detections, displaySize)
-
-        // 2. Clear canvas and Draw
         const context = canvas.getContext('2d')
         context.clearRect(0, 0, canvas.width, canvas.height)
         
-        // Check if there are detections before drawing
         if (resizedDetections.length > 0) {
             faceapi.draw.drawDetections(canvas, resizedDetections)
             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
             faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
         }
 
-        // 3. Request the next frame iteration
         requestAnimationFrame(detectFaces)
     }
 
-    // Start the recursive loop
     detectFaces()
 }
 
@@ -121,7 +114,7 @@ onMounted(() => {
 
 
 <style lang="scss" scoped>
-    @import "./faceRecognition.scss";
+    @use "./faceRecognition.scss";
 
     .grayscale {
         filter: grayscale(100%);

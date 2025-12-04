@@ -2,7 +2,7 @@
 - create / activate  .venv (python 12)
 - install requiremetns
 - ollmaa must be installed an running
-```
+```bash
 python3 --version
 python3 -m venv .venv
 
